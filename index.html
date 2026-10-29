@@ -13,318 +13,437 @@
     <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
     <title>tiny dev crew</title>
     <style>
-      @font-face {
-        font-family: 'Inter';
-        src: url('fonts/inter-latin.woff2') format('woff2');
-        font-weight: 100 900;
-        font-style: normal;
-        font-display: swap;
-      }
+/* Hallmark · shape: Narrative Workflow · genre: modern-minimal · theme: Furrow (deal 1/3, seed one-page-introduction-software-contractor-8a8b·f927fd3b·2026-10-28·r0) · redesign: full
+ * hero: Poster · nav: floating pill · footer: mast · imagery: none (a real topographic map of the Passau hills: measured contours, the Danube/Inn/Ilz and the B8 from OpenStreetMap, the user's logo) · signature: the side projects ruled as a survey ledger
+ * axes: light/grotesk-sans/warm · posture: restrained · contrast: pass · fold: pass · draw: e7f126 · job: hire · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S5 R5 V4 · weakest: H, the hero name needed the 7.5vw display and the map's right-side mass to hold one screen */
+/* Hallmark · reworded "let's work together" to "Let’s work together" · F1 typographic apostrophe */
+/* Hallmark · user-directed delta: "Build" moved to the last stage (4.0) and socialsonar dropped from the work index (project is defunct) */
+/* Hallmark · dropped "app.socialsonar.co" · user: project is defunct */
+@import url("./tokens.css");
+@import url("./base.css");
 
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+@font-face {
+  font-family: 'Red Hat Display';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fonts/red-hat-display-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Red Hat Text';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('fonts/red-hat-text.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Red Hat Mono';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('fonts/red-hat-mono.woff2') format('woff2');
+}
 
-      body {
-        background-color: #0f172a;
-        background-image:
-          radial-gradient(ellipse at 20% 0%, #1a2f1a 0%, transparent 50%),
-          radial-gradient(ellipse at 80% 100%, #0f1f3d 0%, transparent 50%);
-        font-family: 'Inter', system-ui, sans-serif;
-        color: #e2e8f0;
-        min-height: 100vh;
-        padding: 2.5rem 1rem 4rem;
-      }
+:root { --color-focus: oklch(55% 0.21 40); }
 
-      .container {
-        max-width: 860px;
-        margin: 0 auto;
-      }
+body { font-synthesis: none; }
 
-      /* ── Grid ── */
-      .grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 1rem;
-      }
+/* ── skip link ── */
+.skip { position: absolute; left: var(--space-md); top: calc(-1 * var(--space-3xl)); z-index: var(--z-toast); padding: var(--space-xs) var(--space-md); background: var(--color-ink); color: var(--color-paper); text-decoration: none; }
+.skip:focus-visible { top: var(--space-md); }
 
-      /* ── Cards ── */
-      .card {
-        background: white;
-        border-radius: 12px;
-        padding: 1.5rem;
-        color: #0f172a;
-        position: relative;
-        overflow: hidden;
-      }
-      .card::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 3px;
-      }
-      .card.accent-green::before    { background: linear-gradient(90deg, #22c55e, #86efac); }
-      .card.accent-blue::before     { background: linear-gradient(90deg, #3b82f6, #93c5fd); }
-      .card.accent-purple::before   { background: linear-gradient(90deg, #8b5cf6, #c4b5fd); }
-      .card.accent-gradient::before { background: linear-gradient(90deg, #22c55e, #3b82f6, #8b5cf6); }
-      .card.span-3 { grid-column: span 3; }
+/* ── nav, a floating pill ── */
+.nav { position: fixed; top: var(--space-lg); left: 50%; transform: translateX(-50%); z-index: var(--z-sticky-nav); display: flex; align-items: center; gap: var(--space-sm); background: var(--color-paper-2); border: var(--rule-hair) solid var(--color-rule); border-radius: 999px; padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-md); box-shadow: var(--shadow-card); max-width: calc(100% - 32px); }
+.nav__logo { display: block; width: 40px; height: 37px; flex-shrink: 0; }
 
-      .card-label {
-        font-size: 0.65rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        margin-bottom: 0.6rem;
-      }
-      .card.accent-green .card-label    { color: #16a34a; }
-      .card.accent-blue .card-label     { color: #2563eb; }
-      .card.accent-purple .card-label   { color: #7c3aed; }
-      .card.accent-gradient .card-label { color: #0f172a; }
+/* ── keys, the moulded controls ── */
+.btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 var(--space-lg); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-pill); background: var(--color-paper-2); color: var(--color-ink); font: 500 var(--text-md)/1 var(--font-body); text-decoration: none; white-space: nowrap; box-shadow: inset 0 1px 0 var(--color-sheet), inset 0 -1px 0 color-mix(in oklab, var(--color-ink) 6%, transparent), 0 1px 1px color-mix(in oklab, var(--color-ink) 14%, transparent); transition: background-color var(--dur-short) var(--ease-out), transform var(--dur-micro) var(--ease-out); }
+.btn:hover { background: var(--color-paper-3); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled, .btn[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; transform: none; }
+.btn--primary { background: var(--color-accent); color: var(--color-accent-ink); border-color: color-mix(in oklab, var(--color-accent) 78%, var(--color-ink)); box-shadow: inset 0 1px 0 color-mix(in oklab, var(--color-sheet) 32%, transparent), inset 0 -1px 0 color-mix(in oklab, var(--color-ink) 12%, transparent); }
+.btn--primary:hover { background: color-mix(in oklab, var(--color-accent) 90%, var(--color-ink)); }
+.nav__wordmark { font-family: var(--font-display); font-weight: var(--display-weight); font-size: var(--text-md); letter-spacing: var(--tracking-display); color: var(--color-ink); white-space: nowrap; }
 
-      .card p { font-size: 0.875rem; color: #475569; line-height: 1.6; }
+/* ── hero, Poster on the survey map ── */
+.hero { position: relative; min-height: 92dvh; display: flex; align-items: flex-end; overflow: clip; }
+.hero__map { position: absolute; inset: 0; z-index: 0; }
+.map { width: 100%; height: 100%; }
+.hero__map--phone { display: none; }
+.map__contours path { fill: none; stroke: var(--color-contour); stroke-width: 1; opacity: 0.5; }
+.map__contours path.map__contour--heavy { stroke-width: 1.5; opacity: 0.75; }
+.map__creases line { stroke: var(--color-ink); stroke-width: 1; opacity: 0.06; }
+.map__river { fill: none; stroke: color-mix(in oklab, var(--color-water) 26%, var(--color-paper)); stroke-linecap: round; }
+.map__stream { fill: none; stroke: color-mix(in oklab, var(--color-water) 45%, var(--color-paper)); stroke-width: 1; stroke-linecap: round; }
+.map__lane { fill: none; stroke: var(--color-ink); stroke-width: 1.25; opacity: 0.3; }
+.map__holding { fill: none; stroke: var(--color-accent); stroke-width: 2; }
+.map__place { font-family: var(--font-body); font-weight: 500; font-size: 15px; fill: var(--color-ink-2); }
+.hero__inner { position: relative; z-index: 2; width: 100%; }
+.hero__text { max-width: 30rem; padding-bottom: var(--space-2xl); }
+.hero h1 { font-size: clamp(3.5rem, 7.5vw, 6.5rem); line-height: 0.98; }
+.hero .lead { margin-top: var(--space-md); max-width: 40ch; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-xl); }
 
-      /* ── About card ── */
-      .about-inner {
-        display: flex;
-        gap: 2rem;
-        align-items: stretch;
-      }
-      .about-logo {
-        flex-shrink: 0;
-        width: 200px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .about-logo img {
-        width: 100%;
-        height: auto;
-        display: block;
-      }
-      .about-divider {
-        width: 1px;
-        background: #e2e8f0;
-        flex-shrink: 0;
-      }
-      .about-text {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-      .about-text .site-name {
-        font-size: 1.6rem;
-        font-weight: 800;
-        letter-spacing: -0.03em;
-        color: #0f172a;
-        margin-bottom: 0.2rem;
-      }
-      .about-text .site-tagline {
-        font-size: 0.82rem;
-        color: #94a3b8;
-        font-style: italic;
-        margin-bottom: 0.9rem;
-      }
+/* ── stages ── */
+main { counter-reset: stage; }
+.hero + .stage { border-top: 2px solid var(--color-ink); }
+.stage { padding-block: var(--section-gap); }
+.stage + .stage { border-top: var(--rule-hair) solid var(--color-rule); }
+.stage h2::before { counter-increment: stage; content: counter(stage) ".0 "; }
+.stage__head { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--gap-columns); align-items: baseline; margin-bottom: var(--space-xl); }
+.stage__line { color: var(--color-muted); font-size: var(--text-lead); max-width: 34ch; }
 
-      /* ── Tags ── */
-      .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.9rem; }
-      .tag  { font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: 5px; }
-      .tag-green { background: #dcfce7; color: #15803d; }
-      .tag-blue  { background: #dbeafe; color: #1d4ed8; }
+/* Build: the work, ruled */
+.works { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--color-ink); }
+.work { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) minmax(0, 2fr); gap: var(--gap-columns); align-items: baseline; padding-block: var(--space-lg); border-bottom: 1px solid var(--color-rule); }
+.work h3 { font-size: var(--text-title); }
+.work p { color: var(--color-muted); }
+.work__url { font-family: var(--font-outlier); font-size: var(--text-sm); color: var(--color-ink-2); text-align: right; white-space: nowrap; text-decoration: none; }
+.work__url:hover { color: var(--color-ink); text-decoration: underline; }
 
-      /* ── Skill lists ── */
-      .skill-list {
-        list-style: none;
-        margin-top: 0.75rem;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-      .skill-list li {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: #1e293b;
-        padding: 4px 0;
-        border-bottom: 1px solid #f1f5f9;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-      .skill-list li::before { content: '▸'; font-size: 0.6rem; color: #94a3b8; }
+/* Develop: one ledger */
+.ledger { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--color-ink); }
+.ledger li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--gap-columns); align-items: baseline; padding-block: var(--space-md); border-bottom: 1px solid var(--color-rule); font-weight: 500; font-size: var(--text-title); }
+.ledger .num { font-family: var(--font-outlier); font-size: var(--text-sm); color: var(--color-muted); font-weight: 400; }
 
-      /* ── Project links ── */
-      .project-link {
-        display: block;
-        margin-top: 0.75rem;
-        padding: 0.6rem 0.75rem;
-        background: #f8fafc;
-        border-radius: 7px;
-        border: 1px solid #e2e8f0;
-        text-decoration: none;
-        color: #0f172a;
-        font-size: 0.8rem;
-        font-weight: 600;
-      }
-      .project-link span {
-        display: block;
-        font-size: 0.72rem;
-        font-weight: 400;
-        color: #64748b;
-        margin-top: 2px;
-      }
+/* Run: two ledgers */
+.run-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-xl); }
+.run-grid h3 { font-size: var(--text-title); margin-bottom: var(--space-md); }
+.run-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--color-ink); }
+.run-list li { padding-block: var(--space-sm); border-bottom: 1px solid var(--color-rule); font-weight: 500; }
 
-      /* ── CTA card ── */
-      .cta-card {
-        background: linear-gradient(135deg, #0f172a, #1e293b);
-        border-radius: 12px;
-        padding: 1.75rem 2rem;
-        grid-column: span 3;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        border: 1px solid #1e3a5f;
-      }
-      .cta-card h3 { font-size: 1.1rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.3rem; }
-      .cta-card p  { font-size: 0.82rem; color: #94a3b8; }
-      .cta-buttons { display: flex; gap: 8px; flex-shrink: 0; }
-      .btn {
-        display: inline-block;
-        padding: 0.55rem 1.1rem;
-        border-radius: 7px;
-        font-size: 0.82rem;
-        font-weight: 600;
-        text-decoration: none;
-        white-space: nowrap;
-      }
-      .btn-primary   { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; }
-      .btn-secondary { background: #1e293b; color: #94a3b8; border: 1px solid #334155; }
+/* Write: the statement */
+.statement { font-family: var(--font-display); font-weight: var(--display-weight); font-size: var(--text-display-s); line-height: 1.05; letter-spacing: var(--tracking-display); max-width: 24ch; }
 
-      /* ── Footer ── */
-      footer {
-        margin-top: 2rem;
-        text-align: right;
-        font-size: 0.75rem;
-        color: #334155;
-        line-height: 1.7;
-      }
+/* ── contact band ── */
+.band { background: var(--color-ink); color: var(--color-paper-2); padding-block: var(--section-gap); }
+.band h2 { color: var(--color-paper-2); }
+.band__inner { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--gap-columns); align-items: end; }
+.band__line { margin-top: var(--space-md); color: color-mix(in oklab, var(--color-paper-2) 78%, var(--color-ink)); font-size: var(--text-lead); max-width: 46ch; }
+.band__actions { display: flex; flex-wrap: wrap; gap: var(--space-xs); justify-content: flex-end; }
+.btn--ghost { background: transparent; border-color: color-mix(in oklab, var(--color-paper-2) 32%, transparent); color: var(--color-paper-2); box-shadow: none; }
+.btn--ghost:hover { background: color-mix(in oklab, var(--color-paper-2) 12%, transparent); }
+.band__email { margin-top: var(--space-md); font-size: var(--text-sm); text-align: right; color: color-mix(in oklab, var(--color-paper-2) 85%, var(--color-ink)); }
+.band__email a { color: inherit; text-decoration: none; }
+.band__email a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-      /* ── Mobile ── */
-      @media (max-width: 640px) {
-        body { padding: 1.25rem 0.75rem 3rem; }
+/* ── footer mast ── */
+.mast { padding-block: var(--section-gap) var(--space-2xl); }
+.mast__logo { width: 120px; height: auto; margin-bottom: var(--space-lg); }
+.mast__tagline { font-size: var(--text-lead); color: var(--color-muted); margin-bottom: var(--space-lg); }
+.mast__links { display: flex; flex-wrap: wrap; gap: var(--space-lg); margin-bottom: var(--space-xl); }
+.mast__links a { text-decoration: none; }
+.mast__links a:hover { text-decoration: underline; }
+.mast__imprint { font-size: var(--text-sm); color: var(--color-muted); line-height: 1.7; max-width: 42ch; }
+.mast__imprint a { color: inherit; text-decoration: none; }
+.mast__imprint a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.mast__imprint b { font-weight: 500; }
 
-        .grid { grid-template-columns: 1fr; }
-        .card.span-3 { grid-column: span 1; }
-        .cta-card { grid-column: span 1; flex-direction: column; align-items: flex-start; }
-        .cta-buttons { flex-direction: column; width: 100%; }
-        .btn { text-align: center; }
+/* ── one reveal ── */
+.js [data-reveal] { opacity: 0; transform: translateY(8px); transition: opacity var(--dur-long) var(--ease-out), transform var(--dur-long) var(--ease-out); }
+.js [data-reveal].is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] { opacity: 1; transform: none; transition: none; }
+}
 
-        .about-inner { flex-direction: column; gap: 1.25rem; }
-        .about-logo  { width: 160px; align-self: center; }
-        .about-divider { display: none; }
-      }
+/* ── under 60rem ── */
+@media (max-width: 60rem) {
+  .hero__map--desktop { display: none; }
+  .hero__map--phone { display: block; }
+  .stage__head { grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); margin-bottom: var(--space-lg); }
+  .stage__line { max-width: 60ch; }
+  .work { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xs); padding-block: var(--space-md); }
+  .work__url { text-align: left; margin-top: var(--space-2xs); }
+  .run-grid { grid-template-columns: minmax(0, 1fr); }
+  .band__inner { grid-template-columns: minmax(0, 1fr); gap: var(--space-lg); align-items: start; }
+  .band__actions { justify-content: flex-start; }
+  .band__email { text-align: left; }
+  .hero__text { padding-bottom: var(--space-xl); }
+}
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="grid">
+    <a class="skip" href="#main">Skip to content</a>
 
-        <!-- About -->
-        <div class="card accent-green span-3">
-          <div class="about-inner">
-            <div class="about-logo">
-              <img src="tdc_logo.svg" alt="tiny dev crew logo">
+    <header class="nav" aria-label="tiny dev crew">
+      <a href="#top" aria-label="tiny dev crew, back to the top">
+        <img class="nav__logo" src="tdc_logo.svg" alt="" width="40" height="37">
+      </a>
+      <span class="nav__wordmark">tiny dev crew</span>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="hero__map">
+          <svg class="map hero__map--desktop" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Topographic map of the terrain around Passau: measured contour lines, the Danube, the Inn and the Ilz at their confluence, and the town">
+  <g class="map__creases" aria-hidden="true">
+    <line x1="1258" y1="0" x2="1258" y2="900"/>
+    <line x1="0" y1="452" x2="1440" y2="452"/>
+  </g>
+  <path class="map__river" stroke-width="16" d="M134.5 191.5L217.2 255.4L270 280.5L322.2 295.4L361.8 295.4L402.8 274.4L450 272.1L597.8 322.5L673.7 337.2L733.2 339.7L841.8 362.1L885.2 382.4L951.1 450L985.2 474.6"/>
+  <path class="map__river" stroke-width="16" d="M997.4 484.9L1042.5 514.7L1083.2 504.4L1123.1 514.3L1219.3 497.4L1278.2 511.6L1343.6 514.7L1379.3 497.7L1395.6 471.5"/>
+  <path class="map__river" stroke-width="16" d="M-97 7.9L-19.9 87.4L14.2 109.1"/>
+  <path class="map__river" stroke-width="16" d="M1459.6 408.8L1496.2 423.9L1534.3 455.2"/>
+  <path class="map__river" stroke-width="10" d="M1117.4 623.8L1157 597.4L1193.3 556.9L1230.1 531.3L1305.5 523.5L1322.5 513.2"/>
+  <path class="map__river" stroke-width="10" d="M1164.9 1018.9L1204.9 927.9L1156.4 857.6L1146.5 821.1"/>
+  <path class="map__river" stroke-width="10" d="M1146.6 820L1150.3 804.8L1169.5 784.6L1169.7 760.5L1119.5 687.8"/>
+  <path class="map__river" stroke-width="8" d="M1087.9 -119L1082.2 -96.5L1105 -91.8L1118.3 -69.5L1122.6 -43.3L1148.4 1L1141.1 11.9L1117.8 21.3L1111.9 32.9L1126.6 70.6L1116.7 87.9L1119.8 103L1111.8 118.8L1121.8 157.2L1111 220.6L1150.7 294.8"/>
+  <path class="map__river" stroke-width="8" d="M1150.7 294.9L1152.5 314.2L1179.9 329.9L1191.2 344.8L1192.5 361.7L1175 378.8L1174.1 398.1L1197.9 411.9L1216 412L1219.2 405.5L1200.9 366.4L1207.2 360L1224.2 362.5L1230.8 389.1L1229.2 441.8L1280.9 467.4L1284 477.8L1273.7 500.2L1288.9 512.5"/>
+  <g aria-hidden="true">
+  <path class="map__stream" d="M503.1 -107.8L520.2 -104.4L543.3 -88.3L555.3 -102.8L575.5 -100.5L596.9 -117.6L644.6 -117.1L667 -106.8L672.4 -93.1L688.9 -85.3L690 -78.1L670.8 -85.1L667.3 -81.5L696.3 -59L681.6 -32.9L682.1 -21.5L701.8 -11.2L714.5 6.1L714.7 17.2L727.4 24.7L735.2 39L731.4 52.4L713.4 54.1L713 76.7L744.2 93.1L779.9 137.4L779.2 146.7L798.1 148.3L793.4 126L818.7 122.5L832.2 128.2L841 149L820.5 175.9L826.2 189.4L854.7 199.5L856.1 190.3L863.3 188.6L870.1 202.6L890.6 219.1L867.5 228.6L859.7 239.3L853.2 232.1L847.9 234.5L841.6 285.1L826.9 295.9L826.9 317.2L844.6 362.9"/>
+  <path class="map__stream" d="M21.2 344.1L20.2 335.3L29.7 321.2L9.2 325.7L1.8 309.1L43.9 284.5L40.6 269.5L49.5 265.2L54.4 270.4L58 263.3L42.8 255.9L40.1 247L57.3 238"/>
+  <path class="map__stream" d="M57.5 237.6L60.1 221.5L27.8 235L20.6 229.3L26 224.8L22.3 216.3L42.1 196.9L42.6 181.9L49.6 172.7L81.1 168.5"/>
+  <path class="map__stream" d="M148.7 689.2L144.2 671.8L123.6 646.4"/>
+  <path class="map__stream" d="M151 690.3L147.1 665.5L125.8 620.8"/>
+  <path class="map__stream" d="M-118.9 835L-115.1 818.2L-94.2 817.8L-23.7 773.6L6.2 791.5"/>
+  <path class="map__stream" d="M99.6 795.5L129.3 792.3L135.5 780.9"/>
+  <path class="map__stream" d="M55.5 448.5L30.7 410L42.5 393.5L27.5 385.3L18.3 370.8L21.8 345.9"/>
+  <path class="map__stream" d="M162.4 740L170.2 723.6L150.3 690.8"/>
+  <path class="map__stream" d="M138.2 774L162 740.5"/>
+  <path class="map__stream" d="M126.5 596.9L134.3 574.6L122.2 561.6L122.6 548.5L112.1 537.8L98.4 538.6"/>
+  <path class="map__stream" d="M4.6 603.7L35.9 645.1L110.6 651.8L118.1 646.7"/>
+  <path class="map__stream" d="M-7.5 564.8L6.5 577.7L4.9 589.9"/>
+  <path class="map__stream" d="M577.6 832.9L596.3 858.2"/>
+  <path class="map__stream" d="M660.2 907.9L676.7 916.9"/>
+  <path class="map__stream" d="M558.1 810.9L556.5 819.1L570.1 837.9L577.3 832.6"/>
+  <path class="map__stream" d="M676.8 917.4L676.2 929.3L683.7 938.6L676.9 972.6"/>
+  </g>
+  <g class="map__contours" aria-hidden="true">
+    <path d="M1109 705.9L1130.5 715.9L1145 707.1L1149.7 696.3L1149.3 662.6L1155.2 634.6L1170 612L1187.3 598.7L1223.8 577.1L1252.1 567.9L1348.3 561.5L1367.4 555.8L1404.8 523.5L1426.7 472.7L1440 458.8"/>
+    <path d="M1085.9 676.1L1081.5 653.6L1084.3 633.4L1096.4 610.6L1114.5 592.3L1117.6 574L1094.6 567.3L1036.1 565L968.6 547.2L950.6 548.9L905.6 565.4L882 558L902.6 545.1L903.6 525.9L888.6 491.8L860.3 450.6L835 430.3L687.4 353.9L599.6 329L552.4 321.4L500.6 324.7L437.8 319.7L423.6 324.2L392.1 348.3L307.7 341.2L218.6 304L141 234.1L109.8 214.9L95.7 212.2L73.6 218.5L60.2 272.1L18.8 330.5L0 316.4"/>
+    <path d="M123.5 650.6L129.9 651.4L135.6 644.1L139.1 615.4L106.8 527.2L89.7 515.3L82.4 527.8L107.2 618.2L121.5 648"/>
+    <path d="M1180.4 486.9L1218.4 491.5L1244 486.9L1273.1 456.1L1281.5 453.7L1298 464.6L1310.9 490.1L1332.4 496.5L1348.4 479.8L1369.5 415.7L1388.2 383.7L1405.1 374.8L1440 400.8"/>
+    <path d="M35.3 468.7L64.1 482.9L69.5 481.4L58.8 448.4L41.7 421.9L31 420.2L20.6 437.6L23.1 451.1L34.8 468"/>
+    <path d="M1202.2 416.4L1222.7 427.2L1231.2 423.3L1237.9 412.7L1225.6 361.1L1223.7 329.7L1216.1 318.5L1132.8 269.4L1162.3 329.7L1175.3 379.5L1199.3 414"/>
+    <path d="M854.9 316.1L847.4 297.3L840.2 293L781.9 305.1L694.1 278.9L588.4 262.7L511.9 270.4L415.1 252.5L340.9 263.6L307.1 261.6L287.4 252.6L230.6 212.3L160 132.4L53.4 108.4L32.4 96.8L0 69.2"/>
+    <path d="M875.3 235L894.8 231.3L918 216L923.2 199.1L912.2 175.6L880.2 156L848 158.1L838.7 164.4L849.3 201.9L862.4 228.2L870 234"/>
+    <path d="M715.3 892.1L714.4 880.9L695.8 847.1L694.1 795.7L685.7 784.1L668.3 787.3L635.6 807.4L615.4 809.3L593.2 794.9L577.6 771.1L563.6 760.1L529.9 744.8L518.6 745.3L504 756L522 810L528.1 844.9L521.4 861.3L504 865.1L433.8 835.3L395.6 808.9L374.6 806.7L329.7 816.3L310.4 810L301.6 788.4L306 738L301.8 721.4L284.6 724.9L241.9 746.9L231.2 746.1L217.4 736.7L203.7 696.4L204.2 633.4L187.1 565.9L194.9 542.6L214 516.8L216.8 484.9L197.8 466.2L141.3 454.9L102.9 417.9L95.3 401.6L96.1 388.1L108 360L124.1 335.9L138.4 332L162 342L197.6 381.8L253.3 403.9L272.9 447.2L283.7 457.7L300.4 462.7L327.4 459.8L342.1 465.5L342.3 498.4L335.7 532.1L337.8 554.1L347.9 567.8L370.1 577.1L397.2 577.3L413.3 565.1L430.3 510.4L452.1 489.2L478.1 483.6L552.4 480.4L580.1 468.2L594 450L592 439.9L582.3 421.9L556 398.9L547.7 385.9L545 370.1L551.9 357.8L572.6 353.4L598.9 357L689.9 391.7L719 415.1L744.2 467.6L748.7 487.1L738.9 527.6L741.3 559.1L751.7 580.7L780.1 614.3L809.3 692L878.9 723.7L899.5 725L918 702L920.4 651.4L933.6 627.5L955.1 619.8L982.1 619.5L1023.4 630.9L1060.5 737.6L1100.4 772.8L1106.8 817.9L1119 858.8L1134.8 881L1158.2 900" class="map__contour--heavy"/>
+    <path d="M1232.4 892.1L1204.8 838.3L1196.1 808.9L1195.8 739.1L1189.8 687.4L1195.8 662.6L1206 648L1218.4 643.6L1283.6 642L1319.8 624.3L1337.6 624.7L1369.5 635.1L1387.9 634L1402.8 610.3L1417.7 557L1440 540.8" class="map__contour--heavy"/>
+    <path d="M1123.9 433.2L1140.8 433.2L1145.1 424.1L1121.9 379.1L1115.2 328.2L1082.1 284.6L1062 270L1048.1 252.3L1023.4 183.6L1008.4 192.8L986.2 231.3L970.2 249.1L917.1 268.6L906.3 278.1L898.3 288L897.3 310.4L914.3 330.2L973.3 359.4L1031.8 405L1047.4 410.4L1082.3 407.3L1116 432" class="map__contour--heavy"/>
+    <path d="M1275.6 381.5L1297.1 391.3L1318.3 383.5L1334.5 363.5L1358.1 311.8L1368.6 301.3L1384.9 299.6L1404.3 305.1L1440 332.8" class="map__contour--heavy"/>
+    <path d="M1272.6 370.1L1275.4 318.4L1266.7 290L1245 267.8L1207.1 261.5L1187.4 252.5L1175 228.4L1161.7 156.4L1171.4 57.9L1212.4 18.9L1225.6 0" class="map__contour--heavy"/>
+    <path d="M1431.3 244.1L1402 199.3L1381.7 180.2L1376.2 163.1L1380.8 151.9L1387.7 147.9L1411.9 160L1440 159.5" class="map__contour--heavy"/>
+    <path d="M645.5 216.4L721.1 232.1L750.4 233.9L776 225.5L784.4 210.3L779.3 195.7L762.8 182.3L720.6 166.4L704.2 155.6L669.4 110.6L651.9 82.1L642.5 37.1L626.6 0" class="map__contour--heavy"/>
+    <path d="M250.7 181.1L280.1 192.8L305.6 182.5L322.6 124.4L342 108L359.4 101.3L402.2 143.7L439.9 169.9L460 198" class="map__contour--heavy"/>
+    <path d="M1006 146.6L1029.4 160L1080 144L1098.6 110L1091.7 55.1L1094.4 34L1101.6 17.6L1122 0" class="map__contour--heavy"/>
+    <path d="M1059.4 892.1L1050.5 831.4L1040.2 798.8L1008.6 753.1L988.9 740.2L971.7 744.9L954.9 761.2L943.9 781.9L942.4 799.9L953.3 829L967.8 849.6L1016 882"/>
+    <path d="M1250.6 856.1L1236.2 833L1229.6 811.1L1232 793.1L1242 774L1263.4 766.7L1319.6 770.1L1404 756L1419.3 730.4L1440 723.7"/>
+    <path d="M389.3 741.2L412 752.6L420.8 736.9L396 684L383.7 672.2L373.5 673.9L366.1 700.9L370.9 722.2L384 738"/>
+    <path d="M628.9 720.7L645.3 718.7L677.3 696.9L691.9 693.7L706.9 697.8L737.6 721.2L756.8 723.4L756.6 683.3L743.1 650.3L684.3 572.8L665.8 588L648.1 617.1L615.9 630.8L592 625.7L557.1 589.6L511.9 577.6L485.2 580.5L464.6 606.1L467.4 626.5L489.2 646.9L527.6 668.3L588.2 691.5L628 720"/>
+    <path d="M511.9 146.4L532.1 148.4L574.9 139.6L590.9 126.6L591.8 111.4L576 54L563.2 34.4L485.1 0"/>
+    <path d="M1311.4 892.1L1303.2 849.5L1314.6 829.5L1325.1 824.5L1344.4 821.5L1367.3 824.8L1418.2 851.8L1440 843.2" class="map__contour--heavy"/>
+    <path d="M477.2 94.3L509.6 105.3L532.1 96.6L539.8 77.6L523.9 52.3L473.7 26.8L461.2 28.4L454.7 43.9L470.4 90" class="map__contour--heavy"/>
+  </g>
+  <path class="map__lane" d="M730.3 347.6L713.9 345.4L687.5 350.1L548.8 317.1L527.3 307.8" aria-hidden="true"/>
+  <path class="map__holding" d="M1413.6 545L1357.1 610.5L1269 654.5L1158.9 638.7L1092.8 580.7L1078.9 505.9L1164.9 458.2L1270.2 431L1356.8 479.6Z"/>
+  <text class="map__place" x="1213" y="550">Passau</text>
+</svg>
+          <svg class="map hero__map--phone" viewBox="0 0 1440 900" preserveAspectRatio="xMaxYMid slice" role="img" aria-label="Topographic map of the terrain around Passau: measured contour lines, the Danube, the Inn and the Ilz at their confluence, and the town">
+  <g class="map__creases" aria-hidden="true">
+    <line x1="1258" y1="0" x2="1258" y2="900"/>
+    <line x1="0" y1="452" x2="1440" y2="452"/>
+  </g>
+  <path class="map__river" stroke-width="16" d="M134.5 191.5L217.2 255.4L270 280.5L322.2 295.4L361.8 295.4L402.8 274.4L450 272.1L597.8 322.5L673.7 337.2L733.2 339.7L841.8 362.1L885.2 382.4L951.1 450L985.2 474.6"/>
+  <path class="map__river" stroke-width="16" d="M997.4 484.9L1042.5 514.7L1083.2 504.4L1123.1 514.3L1219.3 497.4L1278.2 511.6L1343.6 514.7L1379.3 497.7L1395.6 471.5"/>
+  <path class="map__river" stroke-width="16" d="M-97 7.9L-19.9 87.4L14.2 109.1"/>
+  <path class="map__river" stroke-width="16" d="M1459.6 408.8L1496.2 423.9L1534.3 455.2"/>
+  <path class="map__river" stroke-width="10" d="M1117.4 623.8L1157 597.4L1193.3 556.9L1230.1 531.3L1305.5 523.5L1322.5 513.2"/>
+  <path class="map__river" stroke-width="10" d="M1164.9 1018.9L1204.9 927.9L1156.4 857.6L1146.5 821.1"/>
+  <path class="map__river" stroke-width="10" d="M1146.6 820L1150.3 804.8L1169.5 784.6L1169.7 760.5L1119.5 687.8"/>
+  <path class="map__river" stroke-width="8" d="M1087.9 -119L1082.2 -96.5L1105 -91.8L1118.3 -69.5L1122.6 -43.3L1148.4 1L1141.1 11.9L1117.8 21.3L1111.9 32.9L1126.6 70.6L1116.7 87.9L1119.8 103L1111.8 118.8L1121.8 157.2L1111 220.6L1150.7 294.8"/>
+  <path class="map__river" stroke-width="8" d="M1150.7 294.9L1152.5 314.2L1179.9 329.9L1191.2 344.8L1192.5 361.7L1175 378.8L1174.1 398.1L1197.9 411.9L1216 412L1219.2 405.5L1200.9 366.4L1207.2 360L1224.2 362.5L1230.8 389.1L1229.2 441.8L1280.9 467.4L1284 477.8L1273.7 500.2L1288.9 512.5"/>
+  <g aria-hidden="true">
+  <path class="map__stream" d="M503.1 -107.8L520.2 -104.4L543.3 -88.3L555.3 -102.8L575.5 -100.5L596.9 -117.6L644.6 -117.1L667 -106.8L672.4 -93.1L688.9 -85.3L690 -78.1L670.8 -85.1L667.3 -81.5L696.3 -59L681.6 -32.9L682.1 -21.5L701.8 -11.2L714.5 6.1L714.7 17.2L727.4 24.7L735.2 39L731.4 52.4L713.4 54.1L713 76.7L744.2 93.1L779.9 137.4L779.2 146.7L798.1 148.3L793.4 126L818.7 122.5L832.2 128.2L841 149L820.5 175.9L826.2 189.4L854.7 199.5L856.1 190.3L863.3 188.6L870.1 202.6L890.6 219.1L867.5 228.6L859.7 239.3L853.2 232.1L847.9 234.5L841.6 285.1L826.9 295.9L826.9 317.2L844.6 362.9"/>
+  <path class="map__stream" d="M21.2 344.1L20.2 335.3L29.7 321.2L9.2 325.7L1.8 309.1L43.9 284.5L40.6 269.5L49.5 265.2L54.4 270.4L58 263.3L42.8 255.9L40.1 247L57.3 238"/>
+  <path class="map__stream" d="M57.5 237.6L60.1 221.5L27.8 235L20.6 229.3L26 224.8L22.3 216.3L42.1 196.9L42.6 181.9L49.6 172.7L81.1 168.5"/>
+  <path class="map__stream" d="M148.7 689.2L144.2 671.8L123.6 646.4"/>
+  <path class="map__stream" d="M151 690.3L147.1 665.5L125.8 620.8"/>
+  <path class="map__stream" d="M-118.9 835L-115.1 818.2L-94.2 817.8L-23.7 773.6L6.2 791.5"/>
+  <path class="map__stream" d="M99.6 795.5L129.3 792.3L135.5 780.9"/>
+  <path class="map__stream" d="M55.5 448.5L30.7 410L42.5 393.5L27.5 385.3L18.3 370.8L21.8 345.9"/>
+  <path class="map__stream" d="M162.4 740L170.2 723.6L150.3 690.8"/>
+  <path class="map__stream" d="M138.2 774L162 740.5"/>
+  <path class="map__stream" d="M126.5 596.9L134.3 574.6L122.2 561.6L122.6 548.5L112.1 537.8L98.4 538.6"/>
+  <path class="map__stream" d="M4.6 603.7L35.9 645.1L110.6 651.8L118.1 646.7"/>
+  <path class="map__stream" d="M-7.5 564.8L6.5 577.7L4.9 589.9"/>
+  <path class="map__stream" d="M577.6 832.9L596.3 858.2"/>
+  <path class="map__stream" d="M660.2 907.9L676.7 916.9"/>
+  <path class="map__stream" d="M558.1 810.9L556.5 819.1L570.1 837.9L577.3 832.6"/>
+  <path class="map__stream" d="M676.8 917.4L676.2 929.3L683.7 938.6L676.9 972.6"/>
+  </g>
+  <g class="map__contours" aria-hidden="true">
+    <path d="M1109 705.9L1130.5 715.9L1145 707.1L1149.7 696.3L1149.3 662.6L1155.2 634.6L1170 612L1187.3 598.7L1223.8 577.1L1252.1 567.9L1348.3 561.5L1367.4 555.8L1404.8 523.5L1426.7 472.7L1440 458.8"/>
+    <path d="M1085.9 676.1L1081.5 653.6L1084.3 633.4L1096.4 610.6L1114.5 592.3L1117.6 574L1094.6 567.3L1036.1 565L968.6 547.2L950.6 548.9L905.6 565.4L882 558L902.6 545.1L903.6 525.9L888.6 491.8L860.3 450.6L835 430.3L687.4 353.9L599.6 329L552.4 321.4L500.6 324.7L437.8 319.7L423.6 324.2L392.1 348.3L307.7 341.2L218.6 304L141 234.1L109.8 214.9L95.7 212.2L73.6 218.5L60.2 272.1L18.8 330.5L0 316.4"/>
+    <path d="M123.5 650.6L129.9 651.4L135.6 644.1L139.1 615.4L106.8 527.2L89.7 515.3L82.4 527.8L107.2 618.2L121.5 648"/>
+    <path d="M1180.4 486.9L1218.4 491.5L1244 486.9L1273.1 456.1L1281.5 453.7L1298 464.6L1310.9 490.1L1332.4 496.5L1348.4 479.8L1369.5 415.7L1388.2 383.7L1405.1 374.8L1440 400.8"/>
+    <path d="M35.3 468.7L64.1 482.9L69.5 481.4L58.8 448.4L41.7 421.9L31 420.2L20.6 437.6L23.1 451.1L34.8 468"/>
+    <path d="M1202.2 416.4L1222.7 427.2L1231.2 423.3L1237.9 412.7L1225.6 361.1L1223.7 329.7L1216.1 318.5L1132.8 269.4L1162.3 329.7L1175.3 379.5L1199.3 414"/>
+    <path d="M854.9 316.1L847.4 297.3L840.2 293L781.9 305.1L694.1 278.9L588.4 262.7L511.9 270.4L415.1 252.5L340.9 263.6L307.1 261.6L287.4 252.6L230.6 212.3L160 132.4L53.4 108.4L32.4 96.8L0 69.2"/>
+    <path d="M875.3 235L894.8 231.3L918 216L923.2 199.1L912.2 175.6L880.2 156L848 158.1L838.7 164.4L849.3 201.9L862.4 228.2L870 234"/>
+    <path d="M715.3 892.1L714.4 880.9L695.8 847.1L694.1 795.7L685.7 784.1L668.3 787.3L635.6 807.4L615.4 809.3L593.2 794.9L577.6 771.1L563.6 760.1L529.9 744.8L518.6 745.3L504 756L522 810L528.1 844.9L521.4 861.3L504 865.1L433.8 835.3L395.6 808.9L374.6 806.7L329.7 816.3L310.4 810L301.6 788.4L306 738L301.8 721.4L284.6 724.9L241.9 746.9L231.2 746.1L217.4 736.7L203.7 696.4L204.2 633.4L187.1 565.9L194.9 542.6L214 516.8L216.8 484.9L197.8 466.2L141.3 454.9L102.9 417.9L95.3 401.6L96.1 388.1L108 360L124.1 335.9L138.4 332L162 342L197.6 381.8L253.3 403.9L272.9 447.2L283.7 457.7L300.4 462.7L327.4 459.8L342.1 465.5L342.3 498.4L335.7 532.1L337.8 554.1L347.9 567.8L370.1 577.1L397.2 577.3L413.3 565.1L430.3 510.4L452.1 489.2L478.1 483.6L552.4 480.4L580.1 468.2L594 450L592 439.9L582.3 421.9L556 398.9L547.7 385.9L545 370.1L551.9 357.8L572.6 353.4L598.9 357L689.9 391.7L719 415.1L744.2 467.6L748.7 487.1L738.9 527.6L741.3 559.1L751.7 580.7L780.1 614.3L809.3 692L878.9 723.7L899.5 725L918 702L920.4 651.4L933.6 627.5L955.1 619.8L982.1 619.5L1023.4 630.9L1060.5 737.6L1100.4 772.8L1106.8 817.9L1119 858.8L1134.8 881L1158.2 900" class="map__contour--heavy"/>
+    <path d="M1232.4 892.1L1204.8 838.3L1196.1 808.9L1195.8 739.1L1189.8 687.4L1195.8 662.6L1206 648L1218.4 643.6L1283.6 642L1319.8 624.3L1337.6 624.7L1369.5 635.1L1387.9 634L1402.8 610.3L1417.7 557L1440 540.8" class="map__contour--heavy"/>
+    <path d="M1123.9 433.2L1140.8 433.2L1145.1 424.1L1121.9 379.1L1115.2 328.2L1082.1 284.6L1062 270L1048.1 252.3L1023.4 183.6L1008.4 192.8L986.2 231.3L970.2 249.1L917.1 268.6L906.3 278.1L898.3 288L897.3 310.4L914.3 330.2L973.3 359.4L1031.8 405L1047.4 410.4L1082.3 407.3L1116 432" class="map__contour--heavy"/>
+    <path d="M1275.6 381.5L1297.1 391.3L1318.3 383.5L1334.5 363.5L1358.1 311.8L1368.6 301.3L1384.9 299.6L1404.3 305.1L1440 332.8" class="map__contour--heavy"/>
+    <path d="M1272.6 370.1L1275.4 318.4L1266.7 290L1245 267.8L1207.1 261.5L1187.4 252.5L1175 228.4L1161.7 156.4L1171.4 57.9L1212.4 18.9L1225.6 0" class="map__contour--heavy"/>
+    <path d="M1431.3 244.1L1402 199.3L1381.7 180.2L1376.2 163.1L1380.8 151.9L1387.7 147.9L1411.9 160L1440 159.5" class="map__contour--heavy"/>
+    <path d="M645.5 216.4L721.1 232.1L750.4 233.9L776 225.5L784.4 210.3L779.3 195.7L762.8 182.3L720.6 166.4L704.2 155.6L669.4 110.6L651.9 82.1L642.5 37.1L626.6 0" class="map__contour--heavy"/>
+    <path d="M250.7 181.1L280.1 192.8L305.6 182.5L322.6 124.4L342 108L359.4 101.3L402.2 143.7L439.9 169.9L460 198" class="map__contour--heavy"/>
+    <path d="M1006 146.6L1029.4 160L1080 144L1098.6 110L1091.7 55.1L1094.4 34L1101.6 17.6L1122 0" class="map__contour--heavy"/>
+    <path d="M1059.4 892.1L1050.5 831.4L1040.2 798.8L1008.6 753.1L988.9 740.2L971.7 744.9L954.9 761.2L943.9 781.9L942.4 799.9L953.3 829L967.8 849.6L1016 882"/>
+    <path d="M1250.6 856.1L1236.2 833L1229.6 811.1L1232 793.1L1242 774L1263.4 766.7L1319.6 770.1L1404 756L1419.3 730.4L1440 723.7"/>
+    <path d="M389.3 741.2L412 752.6L420.8 736.9L396 684L383.7 672.2L373.5 673.9L366.1 700.9L370.9 722.2L384 738"/>
+    <path d="M628.9 720.7L645.3 718.7L677.3 696.9L691.9 693.7L706.9 697.8L737.6 721.2L756.8 723.4L756.6 683.3L743.1 650.3L684.3 572.8L665.8 588L648.1 617.1L615.9 630.8L592 625.7L557.1 589.6L511.9 577.6L485.2 580.5L464.6 606.1L467.4 626.5L489.2 646.9L527.6 668.3L588.2 691.5L628 720"/>
+    <path d="M511.9 146.4L532.1 148.4L574.9 139.6L590.9 126.6L591.8 111.4L576 54L563.2 34.4L485.1 0"/>
+    <path d="M1311.4 892.1L1303.2 849.5L1314.6 829.5L1325.1 824.5L1344.4 821.5L1367.3 824.8L1418.2 851.8L1440 843.2" class="map__contour--heavy"/>
+    <path d="M477.2 94.3L509.6 105.3L532.1 96.6L539.8 77.6L523.9 52.3L473.7 26.8L461.2 28.4L454.7 43.9L470.4 90" class="map__contour--heavy"/>
+  </g>
+  <path class="map__lane" d="M730.3 347.6L713.9 345.4L687.5 350.1L548.8 317.1L527.3 307.8" aria-hidden="true"/>
+  <path class="map__holding" d="M1413.6 545L1357.1 610.5L1269 654.5L1158.9 638.7L1092.8 580.7L1078.9 505.9L1164.9 458.2L1270.2 431L1356.8 479.6Z"/>
+  <text class="map__place" x="1213" y="550">Passau</text>
+</svg>
+        </div>
+        <div class="container hero__inner">
+          <div class="hero__text">
+            <h1>tiny<br>dev<br>crew</h1>
+            <p class="lead">Udo Gröbner builds distributed web applications, with your team or solo.</p>
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="https://www.linkedin.com/in/udo-gr%C3%B6bner-0a853346/">Reach out on LinkedIn</a>
+              <a class="btn" href="https://xing.de/profile/Udo_Groebner">On Xing</a>
             </div>
-            <div class="about-divider"></div>
-            <div class="about-text">
-              <div class="site-name">tiny dev crew</div>
-              <div class="site-tagline">tiny crew, big impact</div>
-              <p>I'm Udo Gröbner — I develop software, mostly distributed web applications. I can work as a contractor with your team or solo, depending on your needs. Besides development and infrastructure, I can also help with technical writing.</p>
-              <div class="tags">
-                <span class="tag tag-green">Contractor</span>
-                <span class="tag tag-blue">17+ years exp.</span>
-                <span class="tag tag-green">Passau, DE</span>
+          </div>
+        </div>
+      </section>
+
+        <section class="stage" id="develop" aria-labelledby="develop-title">
+          <div class="container">
+            <header class="stage__head">
+              <h2 id="develop-title">Develop</h2>
+              <p class="stage__line">Eight+ languages, 17+ years of them.</p>
+            </header>
+            <ul class="ledger" data-reveal>
+              <li><span>Ruby · Rails &amp; beyond</span><span class="num" aria-hidden="true">01</span></li>
+              <li><span>Go</span><span class="num" aria-hidden="true">02</span></li>
+              <li><span>JavaScript / TypeScript</span><span class="num" aria-hidden="true">03</span></li>
+              <li><span>Java, Kotlin &amp; Scala</span><span class="num" aria-hidden="true">04</span></li>
+              <li><span>Elixir</span><span class="num" aria-hidden="true">05</span></li>
+              <li><span>C# / .NET</span><span class="num" aria-hidden="true">06</span></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="stage" id="run" aria-labelledby="run-title">
+          <div class="container">
+            <header class="stage__head">
+              <h2 id="run-title">Run</h2>
+              <p class="stage__line">The databases and the tools behind the apps.</p>
+            </header>
+            <div class="run-grid" data-reveal>
+              <div>
+                <h3>Databases</h3>
+                <ul class="run-list">
+                  <li>PostgreSQL</li>
+                  <li>MySQL / MariaDB</li>
+                  <li>MongoDB</li>
+                  <li>Redis</li>
+                  <li>Elasticsearch</li>
+                </ul>
+              </div>
+              <div>
+                <h3>Infrastructure</h3>
+                <ul class="run-list">
+                  <li>Docker</li>
+                  <li>Ansible</li>
+                  <li>Git</li>
+                  <li>Puppet</li>
+                </ul>
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        <!-- Languages -->
-        <div class="card accent-blue">
-          <div class="card-label">Languages</div>
-          <ul class="skill-list">
-            <li>Ruby · Rails &amp; beyond</li>
-            <li>Go</li>
-            <li>JavaScript / TypeScript</li>
-            <li>Kotlin</li>
-            <li>Scala</li>
-            <li>Elixir</li>
-          </ul>
-        </div>
-
-        <!-- Databases -->
-        <div class="card accent-purple">
-          <div class="card-label">Databases</div>
-          <ul class="skill-list">
-            <li>PostgreSQL</li>
-            <li>MySQL / MariaDB</li>
-            <li>MongoDB</li>
-            <li>Redis</li>
-            <li>Elasticsearch</li>
-          </ul>
-        </div>
-
-        <!-- Infrastructure -->
-        <div class="card accent-blue">
-          <div class="card-label">Infrastructure</div>
-          <ul class="skill-list">
-            <li>Docker</li>
-            <li>Ansible</li>
-            <li>Git</li>
-            <li>Puppet</li>
-          </ul>
-        </div>
-
-        <!-- Side Projects -->
-        <div class="card accent-gradient span-3">
-          <div class="card-label">Side Projects</div>
-          <p style="color:#475569;margin-bottom:0.5rem;font-size:0.82rem">Things I've built or am working on:</p>
-          <a class="project-link" href="https://app.socialsonar.co">
-            socialsonar
-            <span>A SaaS to keep track of social media accounts without timeline algorithms</span>
-          </a>
-          <a class="project-link" href="https://servernamingscheme.com">
-            server naming scheme
-            <span>Proposes a random naming scheme to server admins and generates a name list</span>
-          </a>
-          <a class="project-link" href="https://apps.garmin.com/en-US/apps/849f7838-472b-44e9-ba5f-943497110f8a">
-            colorzones garmin data field
-            <span>Shows your current heart rate zone on Garmin watches during activities</span>
-          </a>
-          <a class="project-link" href="https://github.com/udl/shoesql">
-            shoeSQL
-            <span>A desktop app to format SQL strings</span>
-          </a>
-        </div>
-
-        <!-- CTA -->
-        <div class="cta-card">
-          <div>
-            <h3>Let's work together</h3>
-            <p>Reach out on LinkedIn or Xing — happy to chat about your project.</p>
+        <section class="stage" id="advise" aria-labelledby="advise-title">
+          <div class="container">
+            <header class="stage__head">
+              <h2 id="advise-title">Advise</h2>
+            </header>
+            <p class="statement" data-reveal>Besides development and infrastructure, I can help implementing AI best practices as well as documentation.</p>
           </div>
-          <div class="cta-buttons">
-            <a class="btn btn-primary" href="https://www.linkedin.com/in/udo-gr%C3%B6bner-0a853346/">LinkedIn →</a>
-            <a class="btn btn-secondary" href="https://xing.de/profile/Udo_Groebner">Xing</a>
+        </section>
+
+        <section class="stage" id="build" aria-labelledby="build-title">
+          <div class="container">
+            <header class="stage__head">
+              <h2 id="build-title">Build</h2>
+              <p class="stage__line">Side projects I’ve built or am working on:</p>
+            </header>
+            <ul class="works" data-reveal>
+              <li class="work">
+                <h3>server naming scheme</h3>
+                <p>Proposes a random naming scheme to server admins and generates a name list</p>
+                <a class="work__url" href="https://servernamingscheme.com">servernamingscheme.com</a>
+              </li>
+              <li class="work">
+                <h3>colorzones garmin data field</h3>
+                <p>Shows your current heart rate zone on Garmin watches during activities</p>
+                <a class="work__url" href="https://apps.garmin.com/en-US/apps/849f7838-472b-44e9-ba5f-943497110f8a">apps.garmin.com</a>
+              </li>
+              <li class="work">
+                <h3>shoeSQL</h3>
+                <p>A desktop app to format SQL strings</p>
+                <a class="work__url" href="https://github.com/udl/shoesql">github.com/udl/shoesql</a>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+      <section class="band" id="contact" aria-labelledby="contact-title">
+        <div class="container band__inner">
+          <div class="band__intro">
+            <h2 id="contact-title">Let’s work together</h2>
+            <p class="band__line">Reach out on LinkedIn or Xing. Happy to chat about your project.</p>
+          </div>
+          <div class="band__side">
+            <div class="band__actions">
+              <a class="btn btn--primary" href="https://www.linkedin.com/in/udo-gr%C3%B6bner-0a853346/">Reach out on LinkedIn</a>
+              <a class="btn btn--ghost" href="https://xing.de/profile/Udo_Groebner">On Xing</a>
+            </div>
+            <p class="band__email"><a href="mailto:info@tinydevcrew.com">info [at] tinydevcrew.com</a></p>
           </div>
         </div>
+      </section>
+    </main>
 
+    <footer class="mast">
+      <div class="container">
+        <img class="mast__logo" src="tdc_logo.svg" alt="tiny dev crew logo" width="120" height="111">
+        <p class="mast__tagline">tiny crew, big impact</p>
+        <nav class="mast__links" aria-label="Contact">
+          <a href="https://www.linkedin.com/in/udo-gr%C3%B6bner-0a853346/">LinkedIn</a>
+          <a href="https://xing.de/profile/Udo_Groebner">Xing</a>
+        </nav>
+        <p class="mast__imprint"><b>Imprint</b><br>tiny dev crew GmbH, Udo Gröbner, Hochstr. 18, 94032 Passau, Germany<br><a href="mailto:info@tinydevcrew.com">info [at] tinydevcrew.com</a></p>
       </div>
+    </footer>
 
-      <footer>
-        <strong>Imprint</strong><br>
-        tiny dev crew GmbH · Udo Gröbner · Hochstr. 18 · 94032 Passau · Germany<br>
-        info [at] tinydevcrew.com
-      </footer>
-
-    </div>
+    <script>
+      document.documentElement.classList.add('js');
+      (function () {
+        var els = document.querySelectorAll('[data-reveal]');
+        if (!('IntersectionObserver' in window)) {
+          els.forEach(function (el) { el.classList.add('is-in'); });
+          return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-in');
+              io.unobserve(entry.target);
+            }
+          });
+        }, { rootMargin: '0px 0px -10% 0px' });
+        els.forEach(function (el) { io.observe(el); });
+      })();
+    </script>
   </body>
 </html>

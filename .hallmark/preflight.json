@@ -1,0 +1,45 @@
+{
+  "skill": "hallmark",
+  "mode": "redesign",
+  "target": "/Users/udo/workspace/tdc-website",
+  "url": "file://index.html",
+  "preflight": {
+    "design_md": null,
+    "brand_spec": null,
+    "real_brand_named": "tiny dev crew (Udo Gröbner, tiny dev crew GmbH)",
+    "brand_assets": {
+      "logo": "tdc_logo.svg",
+      "favicons": ["favicon-16x16.png", "favicon-32x32.png", "favicon.ico"],
+      "note": "Logo is a white square with three outlined letters T/D/C in slate, sky and green over a hand-lettered 'tiny dev crew'. Values read from the SVG, not memory."
+    },
+    "fonts": [
+      { "family": "Inter", "weights": "100-900 variable", "file": "fonts/inter-latin.woff2", "declared": "index.html:16" }
+    ],
+    "palette": {
+      "background": "#0f172a",
+      "text": "#e2e8f0",
+      "card": "#ffffff",
+      "accents": ["#22c55e", "#3b82f6", "#8b5cf6"],
+      "declared": "index.html:27"
+    },
+    "framework": null,
+    "build": null,
+    "tailwind": false,
+    "motion_lib": null,
+    "scripts": [],
+    "single_page": true
+  },
+  "genre": "modern-minimal",
+  "genre_reason": "B2B contractor personal-brand site; technical content (languages, databases, infra, side projects). Inferred, not stamped.",
+  "preserved": [
+    "All copy: about, tagline, tags, languages, databases, infrastructure, side projects (4), CTA, imprint (index.html:230-329)",
+    "All links: 4 side-project URLs, LinkedIn, Xing (index.html:290-317)",
+    "Brand logo tdc_logo.svg and favicons",
+    "Self-hosted Inter (no CDN)",
+    "Imprint / legal text verbatim"
+  ],
+  "introduced": [
+    "A dealt theme replacing the dark-navy + tri-accent card grid",
+    "Token block, container cap, overflow-x clip, focus-visible, reduced-motion"
+  ]
+}

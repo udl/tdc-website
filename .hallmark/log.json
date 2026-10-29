@@ -1,0 +1,27 @@
+[
+ {
+  "mode": "redesign",
+  "depth": "full",
+  "date": "2026-10-29",
+  "theme": "furrow",
+  "prompt": "one-page site for tiny dev crew, a software contractor in Passau; full redesign; user wants a person, not a stock dashboard; keep all content and links",
+  "shape": "Narrative Workflow",
+  "axes": "light/grotesk-sans/warm",
+  "hero": "Poster",
+  "nav": "floating pill",
+  "footer": "mast",
+  "imagery": "none (a generated survey map, the user's logo)",
+  "entry": "Poster: full-bleed survey map, bottom-left stacked display name, one line, two keys",
+  "fingerprint": "Numbered by structure|Single column|Hairline rule|Solid|Full-bleed|Fade-up stagger (once, orchestrated)",
+  "sections": [
+   "hero Poster over the survey map",
+   "1.0 Build - the side projects ruled as a ledger",
+   "2.0 Develop - six languages, one numbered ledger",
+   "3.0 Run - databases and infrastructure, two ledgers",
+   "4.0 Write - the statement",
+   "contact band, ink",
+   "footer mast"
+  ],
+  "signature": "the side projects ruled as a survey ledger"
+ }
+]
